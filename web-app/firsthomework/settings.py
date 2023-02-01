@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['vcm-30653.vm.duke.edu','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'vber.apps.VberConfig',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -76,8 +77,12 @@ WSGI_APPLICATION = 'firsthomework.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'rss_vb',
+        'USER': 'postgres',
+        'PASSWORD': 'vber_go',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
