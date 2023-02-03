@@ -1,0 +1,17 @@
+{% if ride_list %}
+    <l>
+        <p>
+            Rides Info List: <br />
+        </p>
+        {% for ride in ride_list %}
+        <p>
+            ride owner name: {{ ride.owner.user_name }} <br />
+            ride sharer name:
+                {{ ride.get_sharer_names}}
+            <br />
+        </p>
+        {% endfor %}
+    </l>
+{% else %}
+    <p>No rides are available.</p>
+{% endif %}

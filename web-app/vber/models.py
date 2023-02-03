@@ -27,5 +27,13 @@ class Ride(models.Model):
     required_time = models.DateTimeField()
     vehicle_type = models.CharField(max_length=20)
     status = models.CharField(max_length=10)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, blank=True)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, null=True, blank=True)
+    # {"id": number, "id": number, ...}
+    number_in_party = models.JSONField()
     spec_info = models.CharField(max_length=50)
+
+    def get_sharer_names(self):
+        name_list = []
+        for sharer in self.sharer.all():
+            name_list.append(sharer.user_name)
+        return name_list
