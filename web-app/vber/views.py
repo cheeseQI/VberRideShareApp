@@ -1,7 +1,7 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from .models import User, Vehicle, Ride
 from django.shortcuts import get_list_or_404, render
-
+from django.urls import reverse
 
 def index(request):
     return HttpResponse("Hello, world. You're at the vber index.")
@@ -17,6 +17,13 @@ def ride_view_by_driver(request):
     if not curr_user.is_driver:
         return HttpResponse("shit, you are not the driver, no permission!")
     vehicle = Vehicle.objects.get(driver_id=curr_user.id)
-    ride_list = list(Ride.objects.filter(vehicle_id=vehicle.id))
+    ride_list = list(Ride.objects.filter(vehicle_id=vehicle.id, status='confirmed'))
     context = {'ride_list': ride_list}
     return render(request, 'vber/driver_view.html', context)
+
+
+def mark_complete_by_driver(request, ride_id):
+    ride = Ride.objects.get(id=ride_id)
+    ride.status = 'complete'
+    ride.save()
+    return HttpResponseRedirect(reverse('vber:driver_view'))

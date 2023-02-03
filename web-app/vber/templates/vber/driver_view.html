@@ -1,17 +1,28 @@
 {% if ride_list %}
     <l>
-        <p>
-            Rides Info List: <br />
-        </p>
+        <h1>
+            Rides Info: <br />
+        </h1>
         {% for ride in ride_list %}
         <p>
+            ride status: {{ ride.status }} <br />
             ride owner name: {{ ride.owner.user_name }} <br />
-            ride sharer name:
-                {{ ride.get_sharer_names}}
-            <br />
+            <p>
+                ride sharer name:
+                    {{ ride.get_sharer_names}}
+            <p/>
+            passenger number of each party: <br />
+            {% for user_name, passenger_number in ride.number_in_party.items %}
+                {{ user_name }} has {{passenger_number}} passengers in the party <br />
+            {% endfor %}
         </p>
+        <form action="{% url 'vber:mark_status_complete' ride.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="mark this ride to complete">
+        </form>
+        ----------------------------------------------------
         {% endfor %}
     </l>
 {% else %}
-    <p>No rides are available.</p>
+    <p>No rides are available for you.</p>
 {% endif %}

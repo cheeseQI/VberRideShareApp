@@ -28,7 +28,7 @@ class Ride(models.Model):
     vehicle_type = models.CharField(max_length=20)
     status = models.CharField(max_length=10)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, null=True, blank=True)
-    # {"id": number, "id": number, ...}
+    # {"user_name": number, "user_name": number, ...}
     number_in_party = models.JSONField()
     spec_info = models.CharField(max_length=50)
 
