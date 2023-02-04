@@ -37,3 +37,9 @@ class Ride(models.Model):
         for sharer in self.sharer.all():
             name_list.append(sharer.user_name)
         return name_list
+
+    def get_total_passenger(self):
+        sum = 0
+        for user_name, passenger_number in self.number_in_party.items():
+            sum += passenger_number
+        return sum

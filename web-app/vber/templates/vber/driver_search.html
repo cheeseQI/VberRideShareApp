@@ -1,7 +1,7 @@
 {% if ride_list %}
     <l>
         <h1>
-            Your confirmed Rides Info: <br />
+            Open Rides Info: <br />
         </h1>
         {% for ride in ride_list %}
         <p>
@@ -17,9 +17,9 @@
             {% endfor %}
             total passenger: {{ ride.get_total_passenger }}
         </p>
-        <form action="{% url 'vber:mark_status_complete' ride.id %}" method="post">
+        <form action="{% url 'vber:mark_status_confirmed' ride.id %}" method="post">
         {% csrf_token %}
-        <input type="submit" value="mark this ride to complete">
+        <input type="submit" value="mark this ride to confirmed">
         </form>
         ----------------------------------------------------
         {% endfor %}
