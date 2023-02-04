@@ -11,5 +11,5 @@ urlpatterns = [
     path('driver_search/<int:ride_id>/mark_status_confirmed', views.mark_confirmed_by_driver, name='mark_status_confirmed'),
     path('sharer_search', views.ride_search_by_sharer, name='sharer_search'),
     path('sharer_search_result', views.show_ride_search_result_by_sharer, name='sharer_search_result'),
-    path('sharer_search_result/<int:ride_id>/join_ride_by_sharer', views.join_ride_by_sharer, name='join_ride')
+    path('sharer_search_result/<int:ride_id>/<str:number_in_party>/join_ride_by_sharer', views.join_ride_by_sharer, name='join_ride')
 ]

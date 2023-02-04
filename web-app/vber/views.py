@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 
+from django.utils.timezone import make_aware
+from django.db.models import Q
 
 from .models import User, Vehicle, Ride
 from django.shortcuts import get_list_or_404, render
@@ -32,10 +34,13 @@ def ride_search_by_sharer(request):
 
 # the sharer can search for open ride that fit destination, arrival time window, and passenger number
 def show_ride_search_result_by_sharer(request):
+    curr_user = User.objects.get(user_name=request.session["username"])
     dest = request.POST.get('dest')
     e_time = request.POST.get('earliest_arrival_time')
     l_time = request.POST.get('latest_arrival_time')
-    ride_list = list(Ride.objects.filter(status='open', dest_addr=dest, required_time__range=(e_time, l_time)))
+    ride_list = list(Ride.objects.filter(status='open', dest_addr=dest, required_time__range=(e_time, l_time))
+                     .exclude(owner_id=curr_user.id).exclude(Q(sharer__exact=curr_user)))
+    # todo: exclude sharer
     number_in_party = request.POST.get('number_in_party')
     context = {'ride_list': ride_list, 'number_in_party': number_in_party}
     return render(request, 'vber/sharer_search_result.html', context)
@@ -46,9 +51,11 @@ def join_ride_by_sharer(request, ride_id, number_in_party):
     # todo: only user for test!
     request.session["username"] = "test_user"
     curr_user = User.objects.get(user_name=request.session["username"])
-    # todo: add sharer and add party here
-    # ride.sharer.add(curr_user)
-    # ride.number_in_party.add({})
+    ride.sharer.add(curr_user)
+    party_json = ride.number_in_party
+    party_json[curr_user.user_name] = number_in_party
+    print(party_json)
+    ride.save()
     return HttpResponseRedirect(reverse('vber:sharer_search'))
 
 
@@ -77,8 +84,7 @@ def mark_confirmed_by_driver(request, ride_id):
     ride.save()
     owner = ride.owner
     send_mail_to_passenger(owner)
-    share_list = ride.sharer
-    for share in share_list.all():
+    for share in ride.sharer.all():
         send_mail_to_passenger(share)
     return HttpResponseRedirect(reverse('vber:driver_search'))
 

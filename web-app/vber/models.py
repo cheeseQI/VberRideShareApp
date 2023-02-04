@@ -41,5 +41,5 @@ class Ride(models.Model):
     def get_total_passenger(self):
         sum = 0
         for user_name, passenger_number in self.number_in_party.items():
-            sum += passenger_number
+            sum += int(passenger_number)
         return sum
