@@ -1,16 +1,22 @@
 <h1>{{ user_name }}, you are requesting a ride</h1><br>
 
-<form action = "{% url 'vber:request_ride' %}" method = "post">
-    <label for = "dest">Your destination:</label>
-    <input id = "owner_id" type = "text" name = "owner_id" value = {{owner_id}}>
-    <input id = "sharer_id" type = "text" name = "sharer_id" value = {{sharer_id}}>
-    <input id = "can_share" type = "text" name = "can_share" value = {{can_share}}>
-    <input id = "dest_addr" type = "text" name = "dest_addr" value = {{dest_addr}}>
-    <input id = "required_time" type = "text" name = "required_time" value = {{required_time}}>
-    <input id = "vehicle_type" type = "text" name = "vehicle_type" value = {{vehicle_type}}>
-    <input id = "status" type = "text" name = "status" value = {{status}}>
-    <input id = "vehicle" type = "text" name = "vehicle" value = {{vehicle}}>
-    <input id = "number_in_party" type = "text" name = "number_in_party" value = {{number_in_party}}>
-    <input id = "spec_info" type = "text" name = "spec_info" value = {{spec_info}}>
+<form action = "{% url 'vber:request_ride_result' %}" method = "post">
+    <label for = "user_name">user name:</label>
+    <input id = "user_name" type = "text" name = "user_name" value = {{user_name}}><br>
+    <label for = "can_share">can_share:</label>
+    <input id = "can_share" type = "text" name = "can_share" value = {{can_share}}><br>
+    <label for = "dest_addr">dest_addr:</label>
+    <input id = "dest_addr" type = "text" name = "dest_addr" value = {{dest_addr}}><br>
+    <label for = "required_time">required_time:</label>
+    <input id = "required_time" type = "datetime-local" name = "required_time" value = {{required_time}}><br>
+    <label for = "vehicle_type">vehicle_type:</label>
+    <input id = "vehicle_type" type = "text" name = "vehicle_type" value = {{vehicle_type}}><br>
+    <label for = "status">status:</label>
+    <input id = "status" type = "text" name = "status" value = {{status}}><br>
+    <label for = "number">number of people:</label>
+    <input id = "number" type = "text" name = "number" value = {{number}}><br>
+    <label for = "spec_info">spec_info:</label>
+    <input id = "spec_info" type = "text" name = "spec_info" value = {{spec_info}}><br>
+    {% csrf_token %}
     <input type = "submit" value = "OK">
 </form>

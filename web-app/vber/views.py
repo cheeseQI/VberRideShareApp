@@ -112,23 +112,33 @@ def get_vehicle_by_driver(request):
         return None
     return Vehicle.objects.get(driver_id=curr_user.id)
 
-def request_a_new_ride(request):
-    if request.method == 'POST':
-        form = RideForm(request.POST)
-        if form.is_valid():
-            inst = form.save()
-            inst.owner = request.user.username
-            inst.num_passenger = form.cleaned_data.get('num_owner')
-            inst.cartype = form.cleaned_data.get('cartype')
-            inst.special = form.cleaned_data.get('special')
-            inst.user.add(User.objects.get(name = request.user.username))
-            inst.save()
-            return render(request, 'ride/request_success.html')
-    else:
-        form = RideForm
-        
-    context = {
-        'user_name': request.user.username,
-        'form': form,
-    }
-    return render(request, 'ride/request_ride.html', context)
+def request_ride(request):
+    return render(request, 'vber/request_ride.html')
+
+def request_ride_result(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    can_share = True
+    if(request.POST.get('can_share')=="False"):
+        can_share = False
+    dest = request.POST.get('dest_addr')
+    vehicle_type = request.POST.get('vehicle_type')
+    required_time = request.POST.get('required_time')
+    print(required_time)
+    status = request.POST.get('status')
+    number = request.POST.get('number')
+    spec_info = request.POST.get('spec_info')
+    number_in_party = {user.user_name:number}
+    ride = Ride.objects.create(
+        owner = user,
+        can_share = True,
+        dest_addr = "dest",
+        required_time = required_time,
+        vehicle_type = vehicle_type,
+        status = status,
+        number_in_party = number_in_party,
+        spec_info = spec_info
+    )
+    ride.save()
+    context = {'ride':ride}
+    return render(request, 'vber/sharer_search_result.html', context)
