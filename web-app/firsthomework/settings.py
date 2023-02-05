@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-hasu@s-*!o(!zfwy!6_v!$ryrt_=ubld1s-y9%%5b_ii8h+hy$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['vcm-30653.vm.duke.edu','127.0.0.1']
+ALLOWED_HOSTS = ['vcm-31466.vm.duke.edu','*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -78,9 +79,9 @@ WSGI_APPLICATION = 'firsthomework.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rss_vb',
-        'USER': 'postgres',
-        'PASSWORD': 'vber_go',
+        'NAME': 'mydb',
+        'USER': 'myuser',
+        'PASSWORD': 'mypass',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
