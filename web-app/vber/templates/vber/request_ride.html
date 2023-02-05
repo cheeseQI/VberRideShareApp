@@ -1,0 +1,16 @@
+<h1>{{ user_name }}, you are requesting a ride</h1><br>
+
+<form action = "{% url 'vber:request_ride' %}" method = "post">
+    <label for = "dest">Your destination:</label>
+    <input id = "owner_id" type = "text" name = "owner_id" value = {{owner_id}}>
+    <input id = "sharer_id" type = "text" name = "sharer_id" value = {{sharer_id}}>
+    <input id = "can_share" type = "text" name = "can_share" value = {{can_share}}>
+    <input id = "dest_addr" type = "text" name = "dest_addr" value = {{dest_addr}}>
+    <input id = "required_time" type = "text" name = "required_time" value = {{required_time}}>
+    <input id = "vehicle_type" type = "text" name = "vehicle_type" value = {{vehicle_type}}>
+    <input id = "status" type = "text" name = "status" value = {{status}}>
+    <input id = "vehicle" type = "text" name = "vehicle" value = {{vehicle}}>
+    <input id = "number_in_party" type = "text" name = "number_in_party" value = {{number_in_party}}>
+    <input id = "spec_info" type = "text" name = "spec_info" value = {{spec_info}}>
+    <input type = "submit" value = "OK">
+</form>

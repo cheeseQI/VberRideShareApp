@@ -105,10 +105,30 @@ def send_mail_to_passenger(user):
 # helper to get driver's vehicle id, todo:  to a util.py package
 def get_vehicle_by_driver(request):
     # todo: only user for test!
-    request.session["username"] = "test_user"
+    request.session["username"] = "hb174"
     # todo: need to verify the user valid or not first
     curr_user = User.objects.get(user_name=request.session["username"])
     if not curr_user.is_driver:
         return None
     return Vehicle.objects.get(driver_id=curr_user.id)
 
+def request_a_new_ride(request):
+    if request.method == 'POST':
+        form = RideForm(request.POST)
+        if form.is_valid():
+            inst = form.save()
+            inst.owner = request.user.username
+            inst.num_passenger = form.cleaned_data.get('num_owner')
+            inst.cartype = form.cleaned_data.get('cartype')
+            inst.special = form.cleaned_data.get('special')
+            inst.user.add(User.objects.get(name = request.user.username))
+            inst.save()
+            return render(request, 'ride/request_success.html')
+    else:
+        form = RideForm
+        
+    context = {
+        'user_name': request.user.username,
+        'form': form,
+    }
+    return render(request, 'ride/request_ride.html', context)

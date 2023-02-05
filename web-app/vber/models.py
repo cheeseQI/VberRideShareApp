@@ -31,7 +31,6 @@ class Ride(models.Model):
     # {"user_name": number, "user_name": number, ...}
     number_in_party = models.JSONField()
     spec_info = models.CharField(max_length=50)
-
     def get_sharer_names(self):
         name_list = []
         for sharer in self.sharer.all():
