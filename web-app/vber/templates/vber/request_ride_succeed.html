@@ -1,0 +1,28 @@
+{% if ride != null %}
+    <l>
+        <h1>
+            Successfully create a new ride!: <br />
+        </h1>
+        <p>
+            ride status: {{ ride.status }} <br />
+            ride owner name: {{ ride.owner.user_name }} <br />
+            <p>
+                ride sharer name:
+                    {{ ride.get_sharer_names }}
+            <p/>
+            passenger number of each party: <br />
+            ride destination = {{ride.dest_addr}}<br/>
+            vehicle type:{{ride.vehicle_type}} <br />
+            {% for user_name, passenger_number in ride.number_in_party.items %}
+                {{ user_name }} has {{passenger_number}} passengers in the party <br />
+            {% endfor %}
+            total passenger: {{ ride.get_total_passenger }}
+        </p>
+        <form action = "{% url 'vber:request_ride' %}" method = "post">
+        {% csrf_token %}
+        <input type="submit" value="return to home page">
+        </form>
+    </l>
+{% else %}
+    <p>No rides are available for you.</p>
+{% endif %}

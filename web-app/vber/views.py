@@ -92,4 +92,90 @@ def mark_confirmed_by_driver(request, ride_id):
 
 
 
+# helper to get driver's vehicle id, todo:  to a util.py package
+def get_vehicle_by_driver(request):
+    # todo: only user for test!
+    request.session["username"] = "hb174"
+    # todo: need to verify the user valid or not first
+    curr_user = User.objects.get(user_name=request.session["username"])
+    if not curr_user.is_driver:
+        return None
+    return Vehicle.objects.get(driver_id=curr_user.id)
 
+def request_ride(request):
+    request.session["username"] = "hb174"
+    context = {'user_name':request.session["username"]}
+    return render(request, 'vber/request_ride.html',context)
+
+def request_ride_result(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    can_share = True
+    if(request.POST.get('can_share')=="False"):
+        can_share = False
+    dest = request.POST.get('dest_addr')
+    vehicle_type = request.POST.get('vehicle_type')
+    required_time = request.POST.get('required_time')
+    print(required_time)
+    status = request.POST.get('status')
+    number = request.POST.get('number')
+    spec_info = request.POST.get('spec_info')
+    number_in_party = {user.user_name:number}
+    ride = Ride.objects.create(
+        owner = user,
+        can_share = True,
+        dest_addr = dest,
+        required_time = required_time,
+        vehicle_type = vehicle_type,
+        status = status,
+        number_in_party = number_in_party,
+        spec_info = spec_info
+    )
+    ride.save()
+    context = {'ride':ride}
+    return render(request, 'vber/request_ride_succeed.html', context)
+
+def ride_request_editing_choose(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    ride_list = Ride.objects.filter(status = 'open',owner = user)
+    context = {'ride_list':ride_list,'user_name':request.session["username"]}
+    return render(request, 'vber/ride_request_editing_choose.html', context)
+
+
+def ride_request_editing_edit(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    ride = Ride.objects.get(id=request.POST.get('ride_id'))
+    context = {'ride':ride,'user_name':request.session["username"]}
+    return render(request, 'vber/ride_request_editing_edit.html', context)
+
+def save_ride_editing(request,ride_id):
+    request.session["username"] = "hb174"
+    ride = Ride.objects.get(id = ride_id)
+    ride.can_share = request.POST.get('can_share')
+    ride.dest_addr = request.POST.get('dest_addr')
+    ride.required_time = request.POST.get('required_time')
+    ride.vehicle_type = request.POST.get('vehicle_type')
+    ride. status = request.POST.get('status')
+    ride.number = request.POST.get('number')
+    ride.spec_info = request.POST.get('spec_info')
+    
+    ride.save()
+    context = {'ride':ride}
+    return HttpResponseRedirect(reverse('vber:ride_request_editing_choose'))
+
+
+def ride_status_viewing_choose(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    ride_list = Ride.objects.filter(status = 'open',owner = user)
+    context = {'ride_list':ride_list,'user_name':request.session["username"]}
+    return render(request, 'vber/ride_status_viewing_choose.html', context)
+
+def ride_status_viewing_detail(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    ride = Ride.objects.get(id = request.POST.get('ride_id'))
+    context = {'ride':ride,'user_name':request.session["username"]}
+    return render(request, 'vber/ride_status_viewing_detail.html', context)
