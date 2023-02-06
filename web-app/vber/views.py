@@ -113,7 +113,9 @@ def get_vehicle_by_driver(request):
     return Vehicle.objects.get(driver_id=curr_user.id)
 
 def request_ride(request):
-    return render(request, 'vber/request_ride.html')
+    request.session["username"] = "hb174"
+    context = {'user_name':request.session["username"]}
+    return render(request, 'vber/request_ride.html',context)
 
 def request_ride_result(request):
     request.session["username"] = "hb174"
@@ -132,7 +134,7 @@ def request_ride_result(request):
     ride = Ride.objects.create(
         owner = user,
         can_share = True,
-        dest_addr = "dest",
+        dest_addr = dest,
         required_time = required_time,
         vehicle_type = vehicle_type,
         status = status,
@@ -141,4 +143,34 @@ def request_ride_result(request):
     )
     ride.save()
     context = {'ride':ride}
-    return render(request, 'vber/sharer_search_result.html', context)
+    return render(request, 'vber/request_ride_succeed.html', context)
+
+def ride_request_editing_choose(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    ride_list = Ride.objects.filter(status = 'open',owner = user)
+    context = {'ride_list':ride_list,'user_name':request.session["username"]}
+    return render(request, 'vber/ride_request_editing_choose.html', context)
+
+
+def ride_request_editing_edit(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    ride = request.POST.get('ride')
+    context = {'ride':ride,'user_name':request.session["username"]}
+    return render(request, 'vber/ride_request_editing_edit.html', context)
+
+def save_ride_editing(request,ride_id):
+    request.session["username"] = "hb174"
+    ride = Ride.objects.get(id = ride)
+    ride.can_share = request.POST.get('can_share')
+    ride.dest_addr = request.POST.get('dest_addr')
+    ride.required_time = request.POST.get('required_time')
+    ride.vehicle_type = request.POST.get('vehicle_type')
+    ride. status = request.POST.get('status')
+    ride.number = request.POST.get('number')
+    ride.spec_info = request.POST.get('spec_info')
+    
+    ride.save()
+    context = {'ride':ride}
+    return HttpResponseRedirect(reverse('vber:ride_request_editing_choose'))
