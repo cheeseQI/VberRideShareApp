@@ -15,11 +15,27 @@ def index(request):
 
 def mainpage(request, id):
     user = models.User.objects.get(pk = id)
-    ownerRides = models.Ride.objects.filter(owner = user)
-    sharerRides = models.Ride.objects.filter(sharer = user)
+    ##need to select open or confirmed rides
+    ownerRides = []
+    sharerRides = []
+    ownerRidesTemp = models.Ride.objects.filter(owner = user)
+    sharerRidesTemp = models.Ride.objects.filter(sharer = user)
+    for o in ownerRidesTemp:
+        if o.status == 'open' or o.status == 'confirmed':
+            ownerRides.append(o)
+    for s in sharerRidesTemp:
+        if s.status == 'open' or s.status == 'confirmed':
+            sharerRides.append(s)
     ##first search for all the vehicles this user have
     vehicles = models.Vehicle.objects.filter(driver = user)
-    
+    driverRides = []
+    for vehicle in vehicles:
+        driverrides = models.Ride.objects.filter(vehicle = vehicle)
+        for d in driverrides:
+            driverRides.append(d)
+    # hasDriverRides = False
+    # if len(driverRides) > 0:
+    #     hasDriverRides = True 
     return render(request, 'login/mainpage.html', locals())
 
 def login(request):
@@ -99,7 +115,12 @@ def driverEdit(request, id):
         vehicle.max_capacity = max_capacity
         vehicle.spec_info = spec_info
         vehicle.save()              
-    return render(request, 'login/driverEdit.html')    
+    return render(request, 'login/driverEdit.html')
+
+def ridePage(request, user_id, ride_id):
+     user = models.User.objects.get(pk = user_id)
+     ride = models.Ride.objects.get(pk = ride_id)
+     return render(request, 'login/ridePage.html', locals())
 
 def logout(request):
     pass

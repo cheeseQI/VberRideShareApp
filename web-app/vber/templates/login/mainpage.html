@@ -10,11 +10,17 @@
 {% else %}  
 <a href= "/vber/mainpage/{{user.pk}}/driverEdit" class="text-success"><ins>new driver edit</ins></a>
 {% endif %}
+<h1>As Owner Info</h1>
 {% for ownerRide in ownerRides %}
-<p>{{ ownerRide.vehicle_type }}</p>
+<p>Vehicle Type:{{ ownerRide.vehicle_type }}, Status:{{ ownerRide.status}}, <a href= "/vber/mainpage/{{user.pk}}/ridePage/{{ownerRide.pk}}" class="text-success"><ins>act on this ride</ins></a></p>
 {% endfor %}
+<h1>As Sharer Info</h1>
 {% for sharerRide in sharerRides%}
-<p>{{ sharerRide.vehicle_type }}</p>
+<p>Vehicle Type:{{ sharerRide.vehicle_type }}, Status:{{sharerRide.status}}</p>
+{% endfor %}
+<h1>As Driver Info</h1>
+{% for driverRide in driverRides%}
+<p>{{ driverRide.vehicle_type }}</p>
 {% endfor %}
 </body>
 </html>
