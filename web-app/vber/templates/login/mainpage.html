@@ -5,22 +5,23 @@
     <title>Main page</title>
 </head>
 <body>
+<p></p><a href= "/vber/login" class="text-success"><ins>Logout</ins></a></p>
 {% if not user.is_driver %}    
-<a href= "/vber/mainpage/{{user.pk}}/driverRegister" class="text-success"><ins>new driver register</ins></a>
+<a href= "/vber/mainpage/{{user.pk}}/driverRegister" class="text-success"><ins>New Driver Register</ins></a>
 {% else %}  
-<a href= "/vber/mainpage/{{user.pk}}/driverEdit" class="text-success"><ins>new driver edit</ins></a>
+<a href= "/vber/mainpage/{{user.pk}}/driverEdit" class="text-success"><ins>Driver Info Edit</ins></a>
 {% endif %}
 <h1>As Owner Info</h1>
 {% for ownerRide in ownerRides %}
-<p>Vehicle Type:{{ ownerRide.vehicle_type }}, Status:{{ ownerRide.status}}, <a href= "/vber/mainpage/{{user.pk}}/ridePage/{{ownerRide.pk}}" class="text-success"><ins>act on this ride</ins></a></p>
+<p>Vehicle Type:{{ ownerRide.vehicle_type }}, Status:{{ ownerRide.status}}, <a href= "/vber/mainpage/{{user.pk}}/ridePage/{{ownerRide.pk}}" class="text-success"><ins>Select</ins></a></p>
 {% endfor %}
 <h1>As Sharer Info</h1>
 {% for sharerRide in sharerRides%}
-<p>Vehicle Type:{{ sharerRide.vehicle_type }}, Status:{{sharerRide.status}}</p>
+<p>Vehicle Type:{{ sharerRide.vehicle_type }}, Status:{{sharerRide.status}}, <a href= "/vber/mainpage/{{user.pk}}/ridePage/{{sharerRide.pk}}" class="text-success"><ins>Select</ins></a></p>
 {% endfor %}
 <h1>As Driver Info</h1>
 {% for driverRide in driverRides%}
-<p>{{ driverRide.vehicle_type }}</p>
+<p>{{ driverRide.vehicle_type }}, <a href= "/vber/mainpage/{{user.pk}}/ridePage/{{driverRide.pk}}" class="text-success"><ins>Select</ins></a></p>
 {% endfor %}
 </body>
 </html>

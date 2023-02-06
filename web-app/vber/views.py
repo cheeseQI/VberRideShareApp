@@ -54,6 +54,7 @@ def login(request):
             if(user.password == password):
                 user.is_login = True
                 request.session['userid'] = str(user.pk)
+                request.session['user_name'] = user.user_name
                 return redirect('mainpage', id = user.pk)
             else:
                 message = "wrong password"
