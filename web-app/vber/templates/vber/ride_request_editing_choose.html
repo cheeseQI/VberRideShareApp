@@ -1,8 +1,8 @@
 <h1>{{ user_name }},please choose the ride  you want to edit:</h1><br>
 <form action = "{% url 'vber:ride_request_editing_edit' %}" method = "post">
-    <select name = 'ride'>
+    <select name = 'ride_id'>
         {% for ride in ride_list %}
-            <option value='ride'>id = {{ride.id}},owner = {{ride.owner.user_name}}, destination = {{ride.dest_addr}}, vehicle type ={{ride.vehicle_type}}</option> 
+            <option value={{ride_id}}>id = {{ride.id}},owner = {{ride.owner.user_name}}, destination = {{ride.dest_addr}}, vehicle type ={{ride.vehicle_type}}</option> 
         {% endfor %}
     </select>
     {% csrf_token %}

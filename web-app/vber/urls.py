@@ -16,5 +16,7 @@ urlpatterns = [
     path('request_ride_result', views.request_ride_result, name='request_ride_result'),
     path('ride_request_editing_choose', views.ride_request_editing_choose, name='ride_request_editing_choose'),
     path('ride_request_editing_edit', views.ride_request_editing_edit, name='ride_request_editing_edit'),
-    path('save_ride_editing/<int:ride_id>/save_ride', views.save_ride_editing, name='save_ride_editing')
+    path('save_ride_editing/<int:ride_id>/save_ride', views.save_ride_editing, name='save_ride_editing'),
+    path('ride_status_viewing_choose', views.ride_status_viewing_choose, name='ride_status_viewing_choose'),
+    path('ride_status_viewing_detail', views.ride_status_viewing_detail, name='ride_status_viewing_detail')
 ]

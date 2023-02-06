@@ -174,3 +174,18 @@ def save_ride_editing(request,ride_id):
     ride.save()
     context = {'ride':ride}
     return HttpResponseRedirect(reverse('vber:ride_request_editing_choose'))
+
+
+def ride_status_viewing_choose(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    ride_list = Ride.objects.filter(status = 'open',owner = user)
+    context = {'ride_list':ride_list,'user_name':request.session["username"]}
+    return render(request, 'vber/ride_status_viewing_choose.html', context)
+
+def ride_status_viewing_detail(request):
+    request.session["username"] = "hb174"
+    user = User.objects.get(user_name =  request.session["username"])
+    ride = Ride.objects.get(id = request.POST.get('ride_id'))
+    context = {'ride':ride,'user_name':request.session["username"]}
+    return render(request, 'vber/ride_status_viewing_detail.html', context)
