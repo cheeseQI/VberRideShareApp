@@ -1,30 +1,46 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="vber_viewport" content="width=device-width, initial-scale=1">
+    <title>Vber</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
 {% if ride_list %}
     <l>
         <h1>
-            Your confirmed Rides Info: <br />
+            Your confirmed(on going) Rides Info: <br />
         </h1>
         {% for ride in ride_list %}
-        <p>
-            ride status: {{ ride.status }} <br />
-            ride destination: {{ ride.dest_addr }} <br />
-            ride owner name: {{ ride.owner.user_name }} <br />
-            <p>
-                ride sharer name:
-                    {{ ride.get_sharer_names }}
-            <p/>
-            passenger number of each party: <br />
-            {% for user_name, passenger_number in ride.number_in_party.items %}
-                {{ user_name }} has {{passenger_number}} passengers in the party <br />
-            {% endfor %}
-            total passenger: {{ ride.get_total_passenger }}
-        </p>
+        <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">List group item heading</h5>
+                    <small class="text-muted">required arrival time: {{ ride.required_time }} </small>
+                  </div>
+                <small class="text-muted">ride destination: {{ ride.dest_addr }}</small>
+                <p>
+                ride owner name: {{ ride.owner.user_name }}
+                <p>
+                    ride sharer name:
+                        {{ ride.get_sharer_names }}
+                <p/>
+                passenger number of each party: <br />
+                {% for user_name, passenger_number in ride.number_in_party.items %}
+                    {{ user_name }} has {{passenger_number}} passengers in the party <br />
+                {% endfor %}
+                total passenger: {{ ride.get_total_passenger }}
+                </p>
+              </a>
+        </div>
         <form action="{% url 'vber:mark_status_complete' ride.id %}" method="post">
         {% csrf_token %}
         <input type="submit" value="mark this ride to complete">
         </form>
-        ----------------------------------------------------
         {% endfor %}
     </l>
+    <div class="d-grid gap-2">
+      <a href="main_page" class="btn btn-primary active" role="button" data-bs-toggle="button" aria-pressed="true">back to main page</a>
+    </div>
 {% else %}
-    <p>No rides are available for you.</p>
+    <meta http-equiv="refresh" content="3;url=main_page" />
+        <p>No rides are available for you, redirecting to main page in 3 seconds...</p>
 {% endif %}

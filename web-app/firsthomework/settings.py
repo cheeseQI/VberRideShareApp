@@ -134,4 +134,4 @@ EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'vberofficial@outlook.com'
-EMAIL_HOST_PASSWORD = 'vber_go/*-'
+EMAIL_HOST_PASSWORD = 'ptjlfkzdezfdqrin'

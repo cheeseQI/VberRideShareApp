@@ -45,7 +45,7 @@ def show_ride_search_result_by_sharer(request):
     dest = request.POST.get('dest')
     e_time = request.POST.get('earliest_arrival_time')
     l_time = request.POST.get('latest_arrival_time')
-    ride_list = list(Ride.objects.filter(status='open', dest_addr=dest, required_time__range=(e_time, l_time))
+    ride_list = list(Ride.objects.filter(status='open', dest_addr=dest, required_time__range=(e_time, l_time), can_share=True)
                      .exclude(owner_id=curr_user.id).exclude(Q(sharer__exact=curr_user)))
     number_in_party = request.POST.get('number_in_party')
     context = {'ride_list': ride_list, 'number_in_party': number_in_party}

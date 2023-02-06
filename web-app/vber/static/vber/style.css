@@ -1,0 +1,7 @@
+li a {
+    color: green;
+}
+body {
+    font: italic bold 0.8em/1.2 Arial, sans-serif;
+    background: white url("images/background.png") no-repeat left top;
+}
