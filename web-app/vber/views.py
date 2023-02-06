@@ -156,13 +156,13 @@ def ride_request_editing_choose(request):
 def ride_request_editing_edit(request):
     request.session["username"] = "hb174"
     user = User.objects.get(user_name =  request.session["username"])
-    ride = request.POST.get('ride')
+    ride = Ride.objects.get(id=request.POST.get('ride_id'))
     context = {'ride':ride,'user_name':request.session["username"]}
     return render(request, 'vber/ride_request_editing_edit.html', context)
 
 def save_ride_editing(request,ride_id):
     request.session["username"] = "hb174"
-    ride = Ride.objects.get(id = ride)
+    ride = Ride.objects.get(id = ride_id)
     ride.can_share = request.POST.get('can_share')
     ride.dest_addr = request.POST.get('dest_addr')
     ride.required_time = request.POST.get('required_time')

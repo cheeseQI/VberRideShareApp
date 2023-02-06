@@ -1,22 +1,22 @@
 <h1>{{ user_name }},please edit your ride:</h1><br>
 
 {% csrf_token %}
-<form action = "{% url 'vber:save_ride_editing' ride.id %}" method = "post">
+<form action = "{% url 'vber:save_ride_editing' ride.id%}" method = "post">
     <label for = "owner">owner:{{ride.owner.user_name}}</label>
     <label for = "can_share">can_share:</label>
     <input id = "can_share" type = "text" name = "can_share" value = {{ride.can_share}}><br>
     <label for = "dest_addr">dest_addr:</label>
     <input id = "dest_addr" type = "text" name = "dest_addr" value = {{ride.dest_addr}}><br>
     <label for = "required_time">required_time:</label>
-    <input id = "required_time" type = "datetime-local" name = "required_time" value = {{required_time}}><br>
+    <input id = "required_time" type = "datetime-local" name = "required_time" value = {{ride.required_time}}><br>
     <label for = "vehicle_type">vehicle_type:</label>
-    <input id = "vehicle_type" type = "text" name = "vehicle_type" value = {{vehicle_type}}><br>
+    <input id = "vehicle_type" type = "text" name = "vehicle_type" value = {{ride.vehicle_type}}><br>
     <label for = "status">status:</label>
-    <input id = "status" type = "text" name = "status" value = {{status}}><br>
+    <input id = "status" type = "text" name = "status" value = {{ride.status}}><br>
     <label for = "number">number of people:</label>
-    <input id = "number" type = "text" name = "number" value = {{number}}><br>
+    <input id = "number" type = "text" name = "number" value = {{ride.get_total_passenger}}><br>
     <label for = "spec_info">spec_info:</label>
-    <input id = "spec_info" type = "text" name = "spec_info" value = {{spec_info}}><br>
+    <input id = "spec_info" type = "text" name = "spec_info" value = {{ride.spec_info}}><br>
     {% csrf_token %}
     <input type = "submit" value = "OK">
 </form>
