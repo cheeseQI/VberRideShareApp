@@ -20,9 +20,12 @@
         </p>
         <form action = "{% url 'vber:request_ride' %}" method = "post">
         {% csrf_token %}
-        <input type="submit" value="return to home page">
+        <input type="submit" value="return to request page">
         </form>
     </l>
 {% else %}
     <p>No rides are available for you.</p>
 {% endif %}
+    <div class="d-grid gap-2">
+      <a href="main_page" class="btn btn-primary active" role="button" data-bs-toggle="button" aria-pressed="true">back to main page</a>
+    </div>

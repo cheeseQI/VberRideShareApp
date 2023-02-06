@@ -90,22 +90,11 @@ def mark_confirmed_by_driver(request, ride_id):
     return HttpResponseRedirect(reverse('vber:driver_search'))
 
 
-
-
-# helper to get driver's vehicle id, todo:  to a util.py package
-def get_vehicle_by_driver(request):
-    # todo: only user for test!
-    request.session["username"] = "hb174"
-    # todo: need to verify the user valid or not first
-    curr_user = User.objects.get(user_name=request.session["username"])
-    if not curr_user.is_driver:
-        return None
-    return Vehicle.objects.get(driver_id=curr_user.id)
-
 def request_ride(request):
     request.session["username"] = "hb174"
     context = {'user_name':request.session["username"]}
     return render(request, 'vber/request_ride.html',context)
+
 
 def request_ride_result(request):
     request.session["username"] = "hb174"
@@ -134,6 +123,7 @@ def request_ride_result(request):
     ride.save()
     context = {'ride':ride}
     return render(request, 'vber/request_ride_succeed.html', context)
+
 
 def ride_request_editing_choose(request):
     request.session["username"] = "hb174"
