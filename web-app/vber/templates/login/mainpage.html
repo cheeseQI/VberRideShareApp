@@ -7,6 +7,8 @@
 <body>
 {% if not user.is_driver %}    
 <a href= "/vber/mainpage/{{user.pk}}/driverRegister" class="text-success"><ins>new driver register</ins></a>
+{% else %}  
+<a href= "/vber/mainpage/{{user.pk}}/driverEdit" class="text-success"><ins>new driver edit</ins></a>
 {% endif %}
 {% for ownerRide in ownerRides %}
 <p>{{ ownerRide.vehicle_type }}</p>

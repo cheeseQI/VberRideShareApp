@@ -36,10 +36,7 @@ def login(request):
                 return render(request, loginHtml, locals())
             
             if(user.password == password):
-                # return redirect('index')
-                message = 'nihaoa'
                 user.is_login = True
-                # return redirect('index', locals())
                 request.session['userid'] = str(user.pk)
                 return redirect('mainpage', id = user.pk)
             else:
@@ -50,15 +47,6 @@ def login(request):
 
     login_form = UserForm()
     return render(request, loginHtml, locals())    
-
-        # username = request.POST.get('user_name')
-        # password = request.POST.get('password')
-        # user = models.User.objects.get(user_name=username)
-        # if password == user.password:
-        #     return HttpResponse('Login Successfully')
-        # else:
-        #     return render(request,'login/login.html')
-    # return render(request,'login/login.html')
 
 def register(request):
     if request.method == "POST":
@@ -91,8 +79,27 @@ def driverRegister(request, id):
         vehicle.spec_info = spec_info
         vehicle.save()
         user.save()
-    return render(request, 'login/driverRegister.html') 
-    
+    return render(request, 'login/driverRegister.html')
+
+def driverEdit(request, id):
+    if request.method == 'POST':
+        user = models.User.objects.get(pk = id)
+        ##actually there should only be one vehicle for each 
+        vehicles = models.Vehicle.objects.filter(driver = user)
+        vehicle = vehicles[0]
+
+        driver_name = request.POST.get('driver_name')
+        type = request.POST.get('type')
+        plate_number = request.POST.get('plate_number')
+        max_capacity = request.POST.get('max_capacity')
+        spec_info = request.POST.get('spec_info')  
+        vehicle.driver_name = driver_name
+        vehicle.type = type
+        vehicle.plate_number = plate_number
+        vehicle.max_capacity = max_capacity
+        vehicle.spec_info = spec_info
+        vehicle.save()              
+    return render(request, 'login/driverEdit.html')    
 
 def logout(request):
     pass

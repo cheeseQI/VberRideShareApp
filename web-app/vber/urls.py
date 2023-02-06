@@ -13,5 +13,6 @@ urlpatterns = [
     path('login', views.login),
     path('register', views.register),
     path('mainpage/<int:id>', views.mainpage, name = 'mainpage'),
-    path('mainpage/<int:id>/driverRegister', views.driverRegister, name = 'driverRegister')
+    path('mainpage/<int:id>/driverRegister', views.driverRegister, name = 'driverRegister'),
+    path('mainpage/<int:id>/driverEdit', views.driverEdit, name = 'driverEdit')
 ]
