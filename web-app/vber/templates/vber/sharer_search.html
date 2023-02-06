@@ -7,10 +7,10 @@
     </head>
     <form action="{% url 'vber:sharer_search_result' %}" method="post">
         <label for="dest">Your destination: </label>
-        <input id="dest" type="text" name="dest" value="{{ destination }}">
-        <input id="earliest_arrival_time"  type="datetime-local" name="earliest_arrival_time" value="{{ earliest_arrival_time }}">
-        <input id="latest_arrival_time" type="datetime-local" name="latest_arrival_time" value="{{ latest_arrival_time }}">
-        <input id="number_in_party" type="number" name="number_in_party" value="{{ number_in_party }}">
+        <input id="dest" type="text" name="dest" value="{{ destination }}" required>
+        <input id="earliest_arrival_time"  type="datetime-local" name="earliest_arrival_time" value="{{ earliest_arrival_time }}" required>
+        <input id="latest_arrival_time" type="datetime-local" name="latest_arrival_time" value="{{ latest_arrival_time }}" required>
+        <input id="number_in_party" type="number" min="0" oninput="validity.valid||(value='');" name="number_in_party" value="{{ number_in_party }}" required>
         {% csrf_token %}
         <button class="btn btn-outline-success" type="search">Search</button>
     </form>
