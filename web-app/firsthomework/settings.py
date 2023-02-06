@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ['vcm-30653.vm.duke.edu','127.0.0.1']
 
 INSTALLED_APPS = [
     'vber.apps.VberConfig',
-    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
