@@ -11,7 +11,7 @@ from django.urls import reverse
 
 # use to check system health
 def index(request):
-    return HttpResponse("Hello, world. You're at the vber index.")
+    return HttpResponse("Hello, world. You're at the vber index, the app service is working in healthy condition.")
 
 
 # use to integerate main functions, the entry page of the website (after login)
