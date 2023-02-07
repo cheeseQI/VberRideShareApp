@@ -105,8 +105,7 @@ def request_ride_result(request):
     dest = request.POST.get('dest_addr')
     vehicle_type = request.POST.get('vehicle_type')
     required_time = request.POST.get('required_time')
-    print(required_time)
-    status = request.POST.get('status')
+    status = 'open'
     number = request.POST.get('number')
     spec_info = request.POST.get('spec_info')
     number_in_party = {user.user_name:number}
@@ -135,7 +134,6 @@ def ride_request_editing_choose(request):
 
 def ride_request_editing_edit(request):
     request.session["username"] = "hb174"
-    user = User.objects.get(user_name =  request.session["username"])
     ride = Ride.objects.get(id=request.POST.get('ride_id'))
     context = {'ride':ride,'user_name':request.session["username"]}
     return render(request, 'vber/ride_request_editing_edit.html', context)
@@ -147,19 +145,25 @@ def save_ride_editing(request,ride_id):
     ride.dest_addr = request.POST.get('dest_addr')
     ride.required_time = request.POST.get('required_time')
     ride.vehicle_type = request.POST.get('vehicle_type')
-    ride. status = request.POST.get('status')
     ride.number = request.POST.get('number')
     ride.spec_info = request.POST.get('spec_info')
     
     ride.save()
-    context = {'ride':ride}
-    return HttpResponseRedirect(reverse('vber:ride_request_editing_choose'))
+    return HttpResponseRedirect(reverse('vber:main_page'))
 
 
 def ride_status_viewing_choose(request):
     request.session["username"] = "hb174"
     user = User.objects.get(user_name =  request.session["username"])
-    ride_list = Ride.objects.filter(status = 'open',owner = user)
+    all_ride = Ride.objects.all()
+    ride_list = []
+    for ride in all_ride:
+        if ride.owner == user:
+            ride_list.append(ride)
+            continue
+        for sharer in ride.sharer:
+            if sharer == user:
+                ride_list.append(ride)
     context = {'ride_list':ride_list,'user_name':request.session["username"]}
     return render(request, 'vber/ride_status_viewing_choose.html', context)
 
