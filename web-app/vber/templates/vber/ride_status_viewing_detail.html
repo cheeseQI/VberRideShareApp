@@ -18,9 +18,9 @@
             {% endfor %}
             total passenger: {{ ride.get_total_passenger }}
         </p>
-        <form action = "{% url 'vber:ride_status_viewing_choose' %}" method = "post">
+        <form action = "{% url 'vber:main_page' %}" method = "post">
         {% csrf_token %}
-        <input type="submit" value="return to view">
+        <input type="submit" value="return to main">
         </form>
     </l>
 {% else %}
