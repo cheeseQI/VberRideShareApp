@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<h1>Register Page</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Driver name:<input type="text" name="driver_name" placeholder="username"></p>
+    <p>Type<input type="text" name="type" placeholder="type"></p>
+    <p>Plate number<input type="text" name="plate_number" placeholder="plate number"></p>
+    <p>Max capacity<input type="text" name="max_capacity" placeholder="Max capacity"></p>
+    <p>Spec info<input type="text" name="spec_info" placeholder="Spec info"></p>
+    <input type="submit" value="register">
+</form>
+</body>
+</html>

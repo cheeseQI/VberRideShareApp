@@ -1,5 +1,6 @@
 from django.urls import path
-
+# from django.conf.urls import url
+from django.contrib import admin
 from . import views
 
 app_name = 'vber'
@@ -20,4 +21,16 @@ urlpatterns = [
     path('save_ride_editing/<int:ride_id>/save_ride', views.save_ride_editing, name='save_ride_editing'),
     path('ride_status_viewing_choose', views.ride_status_viewing_choose, name='ride_status_viewing_choose'),
     path('ride_status_viewing_detail', views.ride_status_viewing_detail, name='ride_status_viewing_detail')
+    # url(r'^admin/', admin.site.urls),
+    # url(r'^index/', views.index),
+    # url(r'^login/', views.login),
+    # url(r'^register/', views.register),
+    # url(r'^logout/', views.logout),    
+    path('index', views.index, name = 'index'),
+    path('login', views.login),
+    path('register', views.register),
+    path('mainpage/<int:id>', views.mainpage, name = 'mainpage'),
+    path('mainpage/<int:id>/driverRegister', views.driverRegister, name = 'driverRegister'),
+    path('mainpage/<int:id>/driverEdit', views.driverEdit, name = 'driverEdit'),
+    path('mainpage/<int:user_id>/ridePage/<int:ride_id>', views.ridePage, name = 'ridePage')
 ]
