@@ -80,6 +80,7 @@ def mark_complete_by_driver(request, ride_id):
 
 
 def mark_confirmed_by_driver(request, ride_id):
+    
     ride = Ride.objects.get(id=ride_id)
     modify_ride_status(ride, 'confirmed')
     owner = ride.owner
