@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'firsthomework.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydb',
-        'USER': 'myuser',
-        'PASSWORD': 'mypass',
+        'NAME': 'rss_vb',
+        'USER': 'postgres',
+        'PASSWORD': 'vber_go',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

@@ -38,8 +38,6 @@ def ride_search_by_sharer(request):
 
 # the sharer can search for open ride that fit destination, arrival time window, and passenger number
 def show_ride_search_result_by_sharer(request):
-    # todo: only user for test!
-    request.session["username"] = "test_user"
     curr_user = User.objects.get(user_name=request.session["username"])
     dest = request.POST.get('dest')
     e_time = request.POST.get('earliest_arrival_time')
@@ -80,7 +78,7 @@ def mark_complete_by_driver(request, ride_id):
 
 
 def mark_confirmed_by_driver(request, ride_id):
-    
+
     ride = Ride.objects.get(id=ride_id)
     modify_ride_status(ride, 'confirmed')
     owner = ride.owner
@@ -91,13 +89,11 @@ def mark_confirmed_by_driver(request, ride_id):
 
 
 def request_ride(request):
-    request.session["username"] = "hb174"
     context = {'user_name':request.session["username"]}
     return render(request, 'vber/request_ride.html',context)
 
 
 def request_ride_result(request):
-    request.session["username"] = "hb174"
     user = User.objects.get(user_name =  request.session["username"])
     can_share = True
     if(request.POST.get('can_share')=="False"):
@@ -125,7 +121,6 @@ def request_ride_result(request):
 
 
 def ride_request_editing_choose(request):
-    request.session["username"] = "hb174"
     user = User.objects.get(user_name =  request.session["username"])
     ride_list = Ride.objects.filter(status = 'open',owner = user)
     context = {'ride_list':ride_list,'user_name':request.session["username"]}
@@ -133,13 +128,12 @@ def ride_request_editing_choose(request):
 
 
 def ride_request_editing_edit(request):
-    request.session["username"] = "hb174"
     ride = Ride.objects.get(id=request.POST.get('ride_id'))
     context = {'ride':ride,'user_name':request.session["username"]}
     return render(request, 'vber/ride_request_editing_edit.html', context)
 
+
 def save_ride_editing(request,ride_id):
-    request.session["username"] = "hb174"
     ride = Ride.objects.get(id = ride_id)
     ride.can_share = request.POST.get('can_share')
     ride.dest_addr = request.POST.get('dest_addr')
@@ -153,7 +147,6 @@ def save_ride_editing(request,ride_id):
 
 
 def ride_status_viewing_choose(request):
-    request.session["username"] = "hb174"
     user = User.objects.get(user_name =  request.session["username"])
     all_ride = Ride.objects.all()
     ride_list = []
@@ -161,50 +154,19 @@ def ride_status_viewing_choose(request):
         if ride.owner == user:
             ride_list.append(ride)
             continue
-        for sharer in ride.sharer:
+        for sharer in ride.sharer.all():
             if sharer == user:
                 ride_list.append(ride)
     context = {'ride_list':ride_list,'user_name':request.session["username"]}
     return render(request, 'vber/ride_status_viewing_choose.html', context)
 
 def ride_status_viewing_detail(request):
-    request.session["username"] = "hb174"
     user = User.objects.get(user_name =  request.session["username"])
     ride = Ride.objects.get(id = request.POST.get('ride_id'))
     context = {'ride':ride,'user_name':request.session["username"]}
     return render(request, 'vber/ride_status_viewing_detail.html', context)
-    
-    # if request.method == "POST":
-    #     username = request.POST.get('username')
-    #     password = request.POST.get('password')
-    #     print(username, password)
-    #     return redirect('/index/')
     return render(request, 'login/index.html')
 
-def mainpage(request, id):
-    user = models.User.objects.get(pk = id)
-    ##need to select open or confirmed rides
-    ownerRides = []
-    sharerRides = []
-    ownerRidesTemp = models.Ride.objects.filter(owner = user)
-    sharerRidesTemp = models.Ride.objects.filter(sharer = user)
-    for o in ownerRidesTemp:
-        if o.status == 'open' or o.status == 'confirmed':
-            ownerRides.append(o)
-    for s in sharerRidesTemp:
-        if s.status == 'open' or s.status == 'confirmed':
-            sharerRides.append(s)
-    ##first search for all the vehicles this user have
-    vehicles = models.Vehicle.objects.filter(driver = user)
-    driverRides = []
-    for vehicle in vehicles:
-        driverrides = models.Ride.objects.filter(vehicle = vehicle)
-        for d in driverrides:
-            driverRides.append(d)
-    # hasDriverRides = False
-    # if len(driverRides) > 0:
-    #     hasDriverRides = True 
-    return render(request, 'login/mainpage.html', locals())
 
 def login(request):
     loginHtml = 'login/login.html'
@@ -217,13 +179,14 @@ def login(request):
                 user = models.User.objects.get(user_name = username)
             except:
                 message = 'no such user'
+                print('123131')
                 return render(request, loginHtml, locals())
-            
+
             if(user.password == password):
                 user.is_login = True
                 request.session['userid'] = str(user.pk)
-                request.session['user_name'] = user.user_name
-                return redirect('mainpage', id = user.pk)
+                request.session['username'] = user.user_name
+                return HttpResponseRedirect(reverse('vber:main_page'))
             else:
                 message = "wrong password"
                 return render(request, loginHtml, locals())
@@ -232,6 +195,7 @@ def login(request):
 
     login_form = UserForm()
     return render(request, loginHtml, locals())    
+
 
 def register(request):
     if request.method == "POST":
@@ -243,12 +207,16 @@ def register(request):
         user.user_name = username
         user.email = email
         user.password = password
-        user.save()  
+        user.save()
+        return HttpResponseRedirect(reverse('vber:login'))
     return render(request,'login/register.html')
 
-def driverRegister(request, id):
+
+def driverRegister(request):
+    user = models.User.objects.get(pk=request.session['userid'])
+    if user.is_driver == True:
+        return HttpResponseRedirect(reverse('vber:driverEdit'))
     if request.method == "POST":
-        user = models.User.objects.get(pk = id)
         user.is_driver = True
         driver_name = request.POST.get('driver_name')
         type = request.POST.get('type')
@@ -264,11 +232,15 @@ def driverRegister(request, id):
         vehicle.spec_info = spec_info
         vehicle.save()
         user.save()
+        return HttpResponseRedirect(reverse('vber:main_page'))
     return render(request, 'login/driverRegister.html')
 
-def driverEdit(request, id):
+
+def driverEdit(request):
+    user = models.User.objects.get(pk=request.session['userid'])
+    if user.is_driver == False:
+        return HttpResponseRedirect(reverse('vber:driverRegister'))
     if request.method == 'POST':
-        user = models.User.objects.get(pk = id)
         ##actually there should only be one vehicle for each 
         vehicles = models.Vehicle.objects.filter(driver = user)
         vehicle = vehicles[0]
@@ -283,13 +255,16 @@ def driverEdit(request, id):
         vehicle.plate_number = plate_number
         vehicle.max_capacity = max_capacity
         vehicle.spec_info = spec_info
-        vehicle.save()              
+        vehicle.save()
+        return HttpResponseRedirect(reverse('vber:main_page'))
     return render(request, 'login/driverEdit.html')
+
 
 def ridePage(request, user_id, ride_id):
      user = models.User.objects.get(pk = user_id)
      ride = models.Ride.objects.get(pk = ride_id)
      return render(request, 'login/ridePage.html', locals())
+
 
 def logout(request):
     pass
