@@ -24,5 +24,6 @@ urlpatterns = [
     path('register', views.register),
     path('mainpage/driverRegister', views.driverRegister, name= 'driverRegister'),
     path('mainpage/driverEdit', views.driverEdit, name = 'driverEdit'),
+    path('driver_info_view', views.driver_info_view, name = 'driver_info_view'),
     path('mainpage/<int:user_id>/ridePage/<int:ride_id>', views.ridePage, name = 'ridePage')
 ]

@@ -1,0 +1,27 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="vber_viewport" content="width=device-width, initial-scale=1">
+    <title>Vber</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+    <l>
+        <h1>
+            Your Driver Info: <br />
+        </h1>
+        <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">List group item heading</h5>
+                  </div>
+                <p>
+                    Your vehicle type: {{ vehicle.type }} <br />
+                    Plate number: {{vehicle.plate_number}} <br />
+                    Max capacity: {{ vehicle.max_capacity }} <br />
+                    Special information: {{ vehicle.spec_info }} <br />
+                </p>
+              </a>
+        </div>
+    </l>
+    <div class="d-grid gap-2">
+      <a href="main_page" class="btn btn-primary active" role="button" data-bs-toggle="button" aria-pressed="true">back to main page</a>
+    </div>

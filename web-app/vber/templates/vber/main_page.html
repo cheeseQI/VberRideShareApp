@@ -11,17 +11,17 @@
         <h1 style="color:blue;">Welcome to Vber, the best (or maybe the worst) Ride Sharing Service Provider</h1>
         <p>
             <a href = "{% url 'vber:driver_view' %}" >
-                 <button>go to driver view page</button>
+                 <button>go to driver ride view page</button>
             </a>
         </p>
         <p>
             <a href = "{% url 'vber:driver_search' %}" >
-             <button>go to driver search page</button>
+             <button>go to driver ride search page</button>
             </a>
         </p>
         <p>
             <a href = "{% url 'vber:sharer_search' %}" >
-                 <button>go to sharer search page</button>
+                 <button>go to sharer ride search page</button>
             </a><br />
         </p>
         <p>
@@ -31,12 +31,12 @@
         </p>
         <p>
             <a href = "{% url 'vber:ride_status_viewing_choose' %}" >
-                 <button>go to ride view page</button>
+                 <button>go to user ride view page</button>
             </a><br />
         </p>
             <p>
             <a href = "{% url 'vber:ride_request_editing_choose' %}" >
-                 <button>go to ride edit page</button>
+                 <button>go to user ride edit page</button>
             </a><br />
         </p>
         </p>
@@ -49,6 +49,13 @@
             <p>
             <a href = "{% url 'vber:driverRegister' %}" >
                  <button>go to driver register page</button>
+            </a><br />
+        </p>
+        </p>
+            </p>
+            <p>
+            <a href = "{% url 'vber:driver_info_view' %}" >
+                 <button>go to driver info view page</button>
             </a><br />
         </p>
         </p>

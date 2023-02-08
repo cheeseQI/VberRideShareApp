@@ -78,10 +78,10 @@ def mark_complete_by_driver(request, ride_id):
 
 
 def mark_confirmed_by_driver(request, ride_id):
-
     ride = Ride.objects.get(id=ride_id)
-    modify_ride_status(ride, 'confirmed')
+    ride.vehicle = get_vehicle(request)
     owner = ride.owner
+    modify_ride_status(ride, 'confirmed')
     send_mail_to_passenger(owner)
     for share in ride.sharer.all():
         send_mail_to_passenger(share)
@@ -160,6 +160,7 @@ def ride_status_viewing_choose(request):
     context = {'ride_list':ride_list,'user_name':request.session["username"]}
     return render(request, 'vber/ride_status_viewing_choose.html', context)
 
+
 def ride_status_viewing_detail(request):
     user = User.objects.get(user_name =  request.session["username"])
     ride = Ride.objects.get(id = request.POST.get('ride_id'))
@@ -167,6 +168,13 @@ def ride_status_viewing_detail(request):
     return render(request, 'vber/ride_status_viewing_detail.html', context)
     return render(request, 'login/index.html')
 
+
+def driver_ride_view(request):
+    user = User.objects.get(user_name =  request.session["username"])
+    ride = Ride.objects.get(id = request.POST.get('ride_id'))
+    context = {'ride':ride,'user_name':request.session["username"]}
+    return render(request, 'vber/ride_status_viewing_detail.html', context)
+    return render(request, 'login/index.html')
 
 def login(request):
     loginHtml = 'login/login.html'
@@ -264,6 +272,14 @@ def ridePage(request, user_id, ride_id):
      user = models.User.objects.get(pk = user_id)
      ride = models.Ride.objects.get(pk = ride_id)
      return render(request, 'login/ridePage.html', locals())
+
+
+def driver_info_view(request):
+    vehicle = get_vehicle(request)
+    if vehicle is None:
+        return render(request, 'vber/wait_and_redirect.html')
+    context = {'vehicle': vehicle}
+    return render(request, 'vber/driver_info.html', context)
 
 
 def logout(request):

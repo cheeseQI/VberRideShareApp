@@ -2,7 +2,7 @@
 <form action = "{% url 'vber:ride_status_viewing_detail' %}" method = "post">
     <select name = 'ride_id'>
         {% for ride in ride_list %}
-            <option value={{ride.id}} >id = {{ride.id}},owner = {{ride.owner.user_name}}, destination = {{ride.dest_addr}}, vehicle type ={{ride.vehicle_type}}</option> 
+            <option value={{ride.id}} > owner = {{ride.owner.user_name}}, destination = {{ride.dest_addr}}, vehicle type ={{ride.vehicle_type}}</option>
         {% endfor %}
     </select>
     {% csrf_token %}
